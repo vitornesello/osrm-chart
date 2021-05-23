@@ -54,6 +54,7 @@ configTemplatedFiles: {}
 service:
   type: ClusterIP
   port: 80
+  annotations: {}
 
 # Kubernetes Ingress object configuration.
 ingress:
