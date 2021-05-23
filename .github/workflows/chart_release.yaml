@@ -1,0 +1,25 @@
+name: Release Charts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Push Helm Chart to ChartMuseum
+        uses: bsord/helm-push@v3
+        with:
+          force: true
+          chart-folder: osrm
+          username: ${{ secrets.CHART_MUSEUM_USER }}
+          password: ${{ secrets.CHART_MUSEUM_PASSWORD }}
+          repository-url: 'https://charts.orderin.io'
