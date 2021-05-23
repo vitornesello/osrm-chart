@@ -160,6 +160,7 @@ map:
     configTemplatedFiles:
       download.sh: "files/http-download.sh.tpl"
       extract.sh: "files/http-extract.sh.tpl"
+      precompiled.sh: "files/http-download-precompiled.sh.tpl"
 
     # http mode init containers.
     # See tol-level 'initContainersTpl' for documentation.

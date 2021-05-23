@@ -9,7 +9,7 @@ others (GCS, S3) incoming.
 - 🖴 Runs as a StatefulSet so each instance keeps its own maps in PersistentVolume
 
 By default, this chart deploys [osrm-routed](http://project-osrm.org/docs/v5.22.0/api/) server, but you can replace
-it with your own implementation (e.g. based on `libosrm`) if you want. 
+it with your own implementation (e.g. based on `libosrm`) if you want.
 
 ## Install
 
@@ -38,7 +38,7 @@ map:
 
 There are few so-called "source providers" you can use to download maps from:
 
-- `http` - for HTTP endpoints 
+- `http` - for HTTP endpoints
 - `gcs` - for Google Cloud Storage
 
 #### Google Cloud Storage
@@ -65,4 +65,38 @@ map:
   gcs:
     version: "20200226-1"
     uri: "gs://my-osrm-maps/20200226-1/map.tar.gz"
+```
+
+#### Precompiled files
+
+Generating files locally:
+
+```bash
+wget https://download.geofabrik.de/<MAP>.osm.pbf -o map.osm.pbf -P ./data/
+
+docker run -t -v "${PWD}/data:/data" osrm/osrm-backend:v5.22.0 osrm-extract -p /opt/car.lua /data/map.osm.pbf
+docker run -t -v "${PWD}/data:/data" osrm/osrm-backend:v5.22.0 osrm-partition /data/map.osm
+docker run -t -v "${PWD}/data:/data" osrm/osrm-backend:v5.22.0 osrm-customize /data/map.osm
+```
+
+And use the uploaded folder as the http URL:
+
+```yaml
+```yaml
+map:
+  http:
+    uri: https://server/path
+    ...
+    initContainersTpl: |-
+      - name: map-downloader
+        image: allcapsnerdrage/wget:latest
+        imagePullPolicy: IfNotPresent
+        command:
+          - /scripts/precompiled.sh
+        volumeMounts:
+          - name: config-files
+            mountPath: /scripts
+          - name: maps
+            mountPath: /data/maps
+```
 ```
