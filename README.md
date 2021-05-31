@@ -82,7 +82,6 @@ docker run -t -v "${PWD}/data:/data" osrm/osrm-backend:v5.22.0 osrm-customize /d
 And use the uploaded folder as the http URL:
 
 ```yaml
-```yaml
 map:
   http:
     uri: https://server/path
@@ -99,4 +98,10 @@ map:
           - name: maps
             mountPath: /data/maps
 ```
-```
+
+## GitHub Actions
+
+### Secrets
+
+* `CHART_MUSEUM_USER`: Required
+* `CHART_MUSEUM_PASSWORD`: Required
