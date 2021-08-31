@@ -123,6 +123,10 @@ map:
   # set this to false.
   enabled: true
 
+  # The transportation profile used for the release.
+  # For now, the only supported profiles are the default OSRM profiles: car (default), bicycle, foot
+  profile: car
+
   # Configures what source provider to use to download map.
   # Supported providers:
   # - http
